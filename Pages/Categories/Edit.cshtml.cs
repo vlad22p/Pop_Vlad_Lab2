@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Pop_Vlad_Lab2.Data;
 using Pop_Vlad_Lab2.Models;
 
-namespace Pop_Vlad_Lab2.Pages.Books
+namespace Pop_Vlad_Lab2.Pages.Categories
 {
-    public class EditModel : BookCategoriesPageModel
+    public class EditModel : PageModel
     {
         private readonly Pop_Vlad_Lab2.Data.Pop_Vlad_Lab2Context _context;
 
@@ -21,7 +21,7 @@ namespace Pop_Vlad_Lab2.Pages.Books
         }
 
         [BindProperty]
-        public Book Book { get; set; } = default!;
+        public Category Category { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,19 +30,12 @@ namespace Pop_Vlad_Lab2.Pages.Books
                 return NotFound();
             }
 
-            var book =  await _context.Book.FirstOrDefaultAsync(m => m.ID == id);
-            if (book == null)
+            var category =  await _context.Category.FirstOrDefaultAsync(m => m.ID == id);
+            if (category == null)
             {
                 return NotFound();
             }
-            Book = book;
-            ViewData["PublisherID"] = new SelectList(_context.Set<Publisher>(), "ID",
-            "PublisherName");
-            ViewData["AuthorID"] = new SelectList(_context.Set<Author>().Select(a => new
-            {
-                a.ID,
-                FullName = a.FirstName + " " + a.LastName
-            }), "ID", "FullName");
+            Category = category;
             return Page();
         }
 
@@ -55,7 +48,7 @@ namespace Pop_Vlad_Lab2.Pages.Books
                 return Page();
             }
 
-            _context.Attach(Book).State = EntityState.Modified;
+            _context.Attach(Category).State = EntityState.Modified;
 
             try
             {
@@ -63,7 +56,7 @@ namespace Pop_Vlad_Lab2.Pages.Books
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BookExists(Book.ID))
+                if (!CategoryExists(Category.ID))
                 {
                     return NotFound();
                 }
@@ -76,9 +69,9 @@ namespace Pop_Vlad_Lab2.Pages.Books
             return RedirectToPage("./Index");
         }
 
-        private bool BookExists(int id)
+        private bool CategoryExists(int id)
         {
-            return _context.Book.Any(e => e.ID == id);
+            return _context.Category.Any(e => e.ID == id);
         }
     }
 }
