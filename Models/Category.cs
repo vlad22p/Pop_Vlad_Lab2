@@ -1,4 +1,6 @@
-﻿namespace Pop_Vlad_Lab2.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Pop_Vlad_Lab2.Models
 {
     public class Category
     {
