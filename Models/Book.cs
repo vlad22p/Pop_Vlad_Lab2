@@ -20,6 +20,8 @@ namespace Pop_Vlad_Lab2.Models
         public int? AuthorID { get; set; }
         public Author? Author { get; set; }
         [Display(Name = "Category")]
+        public ICollection<Borrowing>? Borrowings { get; set; }
+
         public ICollection<BookCategory>? BookCategories { get; set; }
     }
 }
