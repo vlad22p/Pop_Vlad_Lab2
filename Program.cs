@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Pop_Vlad_Lab2.Data;
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<Pop_Vlad_Lab2Context>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Pop_Vlad_Lab2Context") ?? throw new InvalidOperationException("Connection string 'Pop_Vlad_Lab2Context' not found.")));
+
+builder.Services.AddDbContext<LibraryIdentityContext>(options =>
+
+options.UseSqlServer(builder.Configuration.GetConnectionString("Pop_Vlad_Lab2Context") ?? throw new InvalidOperationException("Connection string 'Pop_Vlad_Lab2Context' not found.")));
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+options.SignIn.RequireConfirmedAccount = true)
+ .AddEntityFrameworkStores<LibraryIdentityContext>();
 
 var app = builder.Build();
 

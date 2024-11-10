@@ -28,7 +28,13 @@ namespace Pop_Vlad_Lab2.Pages.Borrowings
                 return NotFound();
             }
 
-            var borrowing = await _context.Borrowing.FirstOrDefaultAsync(m => m.ID == id);
+            var borrowing = await _context.Borrowing
+                .Include(bo => bo.Member)
+                .Include(bo => bo.Book)
+                    .ThenInclude(b => b.Author)
+                .Include(bo => bo.Book)
+                    .ThenInclude(b => b.Publisher)
+                .FirstOrDefaultAsync(m => m.ID == id);
             if (borrowing == null)
             {
                 return NotFound();
